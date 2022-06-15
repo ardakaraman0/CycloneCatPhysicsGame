@@ -12,8 +12,10 @@ public class BulletMechanic : MonoBehaviour
 {
     [SerializeField]
     RigidSphere _rigidSphere;
+
+    public AttackType _attackType;
     
-    public void SetAndFire(Vector3d initial, Vector3d direction, float t, float power)
+    public void SetAndFire(Vector3d initial, Vector3d direction, float t, float power, AttackType attackType)
     {
         _rigidSphere.SetInitial(initial, direction, t, power);
     }

@@ -13,7 +13,8 @@ public class ShatterDebug : MonoBehaviour
     Shatter _shatter;
     [SerializeField]
     RigidSphere sphere;
-    
+    [SerializeField]
+    RigidBox box;
 
     public bool l = false;
     void Update()
@@ -21,7 +22,9 @@ public class ShatterDebug : MonoBehaviour
         if (l)
         {
             l = false;
-            sphere.enabled = false;
+            if (sphere != null) sphere.enabled = false;
+            else box.enabled = false;
+
             StartCoroutine(_shatter.SplitMesh(true));
         }
     }

@@ -600,7 +600,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6022099, y: 1}
+    m_SensorSize: {x: 1.5993724, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -1957,6 +1957,8 @@ MonoBehaviour:
   _muzzleFlash: {fileID: 2030998444}
   _gun: {fileID: 384545593}
   _bulletLifetime: 1
+  power: 10
+  _attackType: 1
   rate: 1
 --- !u!1 &832575517
 GameObject:
@@ -2925,7 +2927,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6022099, y: 1}
+    m_SensorSize: {x: 1.5993724, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3618,7 +3620,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6022099, y: 1}
+    m_SensorSize: {x: 1.5993724, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3761,7 +3763,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6022099, y: 1}
+    m_SensorSize: {x: 1.5993724, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -3864,6 +3866,8 @@ MonoBehaviour:
   _bullet: {fileID: 0}
   _bulletLifetime: 0.5
   attackPos: {fileID: 237121059}
+  power: 5
+  _attackType: 0
 --- !u!135 &2004931590
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -4081,7 +4085,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 1.6022099, y: 1}
+    m_SensorSize: {x: 1.5993724, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -4302,7 +4306,7 @@ PrefabInstance:
     - target: {fileID: 1021858153931551790, guid: 333ddf64e1cf44cc5af1c48123090d50,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.987432
+      value: 3.699
       objectReference: {fileID: 0}
     - target: {fileID: 1021858153931551790, guid: 333ddf64e1cf44cc5af1c48123090d50,
         type: 3}
@@ -35630,7 +35634,7 @@ Transform:
   m_GameObject: {fileID: 4236527327012273503}
   m_LocalRotation: {x: -0.000000021855694, y: 0.00000004371139, z: -1.0165751e-15,
     w: 1}
-  m_LocalPosition: {x: 0, y: 3.07, z: -0}
+  m_LocalPosition: {x: 0, y: 3.11, z: -0}
   m_LocalScale: {x: 4.13, y: 0.324288, z: 9.3}
   m_ConstrainProportionsScale: 0
   m_Children:

@@ -144,6 +144,7 @@ namespace Cyclone.Rigid.Collisions
                     contact.Penetration = plane.Offset - vertexDistance;
                     contact.SetBodyData(box.Body, null, data.Friction, data.Restitution);
 
+                    box.Body.rigidBox.CollisionGround();
                     if (!data.HasMoreContacts()) return;
                 }
             }
@@ -156,7 +157,7 @@ namespace Cyclone.Rigid.Collisions
             //if (!IntersectionTests.BoxAndBox(one, two)) return;
             
 
-            if (!one.Body.FreezeRotation && !two.Body.FreezeRotation)
+            if (!one.Body.FreezeRotation && !two.Body.FreezeRotation || true)
             {
                 // Find the vector between the two centres
                 Vector3d toCentre = two.GetAxis(3) - one.GetAxis(3);
@@ -286,6 +287,13 @@ namespace Cyclone.Rigid.Collisions
                         // Calculate the distance from the plane
                         double vertexDistance = Vector3d.Dot(_vertexPos, Vector3d.UnitY);
 
+                        double boxesDistance = Vector3d.Distance(one.Body.Position, two.Body.Position);
+                        Vector3d halfsizes = two.HalfSize + one.HalfSize;
+
+                        if (halfsizes.x < boxesDistance || halfsizes.y < boxesDistance || halfsizes.z < boxesDistance)
+                        {
+                            return;
+                        }
                         // Compare this to the plane's distance
                         if (vertexDistance <= one.Body.offset)
                         {
@@ -312,6 +320,14 @@ namespace Cyclone.Rigid.Collisions
 
                         // Calculate the distance from the plane
                         double vertexDistance = Vector3d.Dot(_vertexPos, Vector3d.UnitY);
+
+                        double boxesDistance = Vector3d.Distance(one.Body.Position, two.Body.Position);
+                        Vector3d halfsizes = two.HalfSize + one.HalfSize;
+
+                        if (halfsizes.x < boxesDistance || halfsizes.y < boxesDistance || halfsizes.z < boxesDistance)
+                        {
+                            return;
+                        }
 
                         // Compare this to the plane's distance
                         if (vertexDistance <= two.Body.offset)
@@ -423,6 +439,8 @@ namespace Cyclone.Rigid.Collisions
             contact.ContactPoint = closestPtWorld;
             contact.Penetration = sphere.Radius - Math.Sqrt(dist);
             contact.SetBodyData(box.Body, sphere.Body, data.Friction, data.Restitution);
+            box.Body.rigidBox.Collision(sphere.Body.rigidSphere);
+            sphere.Body.rigidSphere.Collision(box.Body.rigidBox);
         }
 
         private static bool TryAxis(CollisionBox one, CollisionBox two, Vector3d axis, Vector3d toCentre, int index, ref double smallestPenetration, ref int smallestCase)

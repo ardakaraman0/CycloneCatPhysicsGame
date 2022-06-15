@@ -42,6 +42,9 @@ public class RigidSphere : MonoBehaviour
         scale = transform.localScale.y * 0.5;
         rot = transform.rotation.ToQuaternion();
 
+
+        m_body.rigidSphere = this;
+
         m_body.Position = pos;
         m_body.Orientation = rot;
         m_body.LinearDamping = damping;
@@ -75,6 +78,7 @@ public class RigidSphere : MonoBehaviour
 
     public void SetInitial(Vector3d initial, Vector3d direction, float t, float power)
     {
+        released = false;
         m_body.Position = initial;
         m_body.Orientation = rot;
         m_body.LinearDamping = damping;
@@ -88,13 +92,28 @@ public class RigidSphere : MonoBehaviour
     IEnumerator Release(float t)
     {
         yield return new WaitForSeconds(t);
-        m_body.ClearAccumulators();
-        m_body.Velocity = Vector3d.Zero;
-        isActive = false;
-        Spawner.Instance.Release(_bulletMechanic);
+        if (!released)
+        {
+            m_body.ClearAccumulators();
+            m_body.Velocity = Vector3d.Zero;
+            isActive = false;
+            Spawner.Instance.Release(_bulletMechanic);
+        }
     }
 
 
+    bool released = false;
+    public void Collision(RigidBox rb)
+    {
+        if (gameObject.CompareTag("Bullet"))
+        {
+            //released = true;
+            //m_body.ClearAccumulators();
+            //m_body.Velocity = Vector3d.Zero;
+            //isActive = false;
+            //Spawner.Instance.Release(_bulletMechanic);
+        }
+    }
 }
 
 

@@ -18,6 +18,8 @@ namespace Cyclone.Rigid
     ///</summary>
     public class RigidBody
     {
+        public RigidBox rigidBox;
+        public RigidSphere rigidSphere;
 
         /// <summary>
         /// Holds the value for energy under which a body will be put to

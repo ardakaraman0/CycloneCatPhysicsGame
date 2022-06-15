@@ -7,6 +7,11 @@ using Cyclone.Rigid;
 using Cyclone.Rigid.Constraints;
 using Cyclone.Rigid.Collisions;
 
+public enum AttackType
+{
+    paw,
+    bullet
+}
 
 public class PlayerMechanics : MonoBehaviour
 {
@@ -27,10 +32,13 @@ public class PlayerMechanics : MonoBehaviour
     [SerializeField]
     float power = 5f;
 
+    [SerializeField]
+    AttackType _attackType = AttackType.paw;
+
     public void Attack(float t)
     {
         _bullet = Spawner.Instance.Get();
-        _bullet.SetAndFire(attackPos.position.ToVector3d(), attackPos.forward.ToVector3d(), _bulletLifetime, power);
+        _bullet.SetAndFire(attackPos.position.ToVector3d(), attackPos.forward.ToVector3d(), _bulletLifetime, power, _attackType);
     }
 
 

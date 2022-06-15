@@ -23,6 +23,9 @@ public class GunMechanic : MonoBehaviour
     float power = 10f;
 
     [SerializeField]
+    AttackType _attackType = AttackType.bullet; 
+
+    [SerializeField]
     float rate;
     float timer;
 
@@ -87,7 +90,7 @@ public class GunMechanic : MonoBehaviour
     public void Shoot(Vector3d initial, Vector3d direction, float t)
     {
         _bullet = Spawner.Instance.Get();
-        _bullet.SetAndFire(initial, direction, _bulletLifetime, power);
+        _bullet.SetAndFire(initial, direction, _bulletLifetime, power, _attackType);
         StartCoroutine(Muzzle());
     }
 
