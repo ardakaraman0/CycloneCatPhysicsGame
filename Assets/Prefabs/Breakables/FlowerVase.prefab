@@ -101,6 +101,7 @@ MonoBehaviour:
   damping: 0.9
   freezeRotation: 0
   offset: {fileID: 0}
+  _shatter: {fileID: 0}
 --- !u!1001 &6259703065136643431
 PrefabInstance:
   m_ObjectHideFlags: 0

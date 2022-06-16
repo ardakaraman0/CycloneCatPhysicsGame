@@ -65,11 +65,11 @@ public class RigidBox : MonoBehaviour
         {
             if (rb.CompareTag("Bullet"))
             {
+                gameObject.tag = "Dead";
                 RigidPhysicsEngine.Instance.Bodies.Remove(m_body);
                 RigidPhysicsEngine.Instance.Collisions.Primatives.Remove(shape);
-
-                this.enabled = false;
                 StartCoroutine(_shatter.SplitMesh(true));
+                this.enabled = false;
             }
         }
     }
@@ -78,10 +78,11 @@ public class RigidBox : MonoBehaviour
     {
         if (!freezeRotation)
         {
-            this.enabled = false;
+            gameObject.tag = "Dead";
             RigidPhysicsEngine.Instance.Bodies.Remove(m_body);
             RigidPhysicsEngine.Instance.Collisions.Primatives.Remove(shape);
             StartCoroutine(_shatter.SplitMesh(true));
+            this.enabled = false;
         }
     }
 

@@ -17,6 +17,9 @@ public class BulletMechanic : MonoBehaviour
     
     public void SetAndFire(Vector3d initial, Vector3d direction, float t, float power, AttackType attackType)
     {
+        if (attackType == AttackType.bullet) gameObject.tag = "Bullet";
+        else gameObject.tag = "Paw";
+
         _rigidSphere.SetInitial(initial, direction, t, power);
     }
 

@@ -85,6 +85,7 @@ public class RigidSphere : MonoBehaviour
         m_body.AngularDamping = damping;
 
         m_body.AddForce(direction * power);
+        m_body.Integrate(Time.deltaTime);   
         isActive = true;
         StartCoroutine(Release(t));
     }
@@ -107,11 +108,11 @@ public class RigidSphere : MonoBehaviour
     {
         if (gameObject.CompareTag("Bullet"))
         {
-            //released = true;
-            //m_body.ClearAccumulators();
-            //m_body.Velocity = Vector3d.Zero;
-            //isActive = false;
-            //Spawner.Instance.Release(_bulletMechanic);
+            released = true;
+            m_body.ClearAccumulators();
+            m_body.Velocity = Vector3d.Zero;
+            isActive = false;
+            Spawner.Instance.Release(_bulletMechanic);
         }
     }
 }

@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Bullet
+  - Dead
+  - Breakable
+  - Paw
   layers:
   - Default
   - TransparentFX

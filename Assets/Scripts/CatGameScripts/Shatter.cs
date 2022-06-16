@@ -48,15 +48,13 @@ public class Shatter : MonoBehaviour
         Vector3[] verts = M.vertices;
         Vector3[] normals = M.normals;
         Vector2[] uvs = M.uv;
-        for (int submesh = 0; submesh < M.subMeshCount; submesh+=10)
+        for (int submesh = 0; submesh < M.subMeshCount; submesh++)
         {
+            if (submesh > M.subMeshCount) break;
             int[] indices = M.GetTriangles(submesh);
 
-            for (int i = 0; i < indices.Length; i += 5)
+            for (int i = 0; i < indices.Length; i+=3)
             {
-                //if (i % 5 == 0)
-                //    yield return new WaitForEndOfFrame();
-
                 Vector3[] newVerts = new Vector3[3];
                 Vector3[] newNormals = new Vector3[3];
                 Vector2[] newUvs = new Vector2[3];

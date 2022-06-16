@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using Cinemachine;
 
 using Cyclone.Core;
 using Cyclone.Rigid;
@@ -11,7 +13,11 @@ public class GunMechanic : MonoBehaviour
 {
     [SerializeField]
     Transform _muzzlePos;
-
+    [SerializeField]
+    Transform _player;
+    [SerializeField]
+    PlayerMovement _playerM;
+    float proximity = -1f;
 
     [SerializeField]
     GameObject _muzzleFlash;
@@ -29,45 +35,73 @@ public class GunMechanic : MonoBehaviour
     float rate;
     float timer;
 
+    [SerializeField]
+    CinemachineFreeLook main_vcam;
+    [SerializeField]
+    CinemachineVirtualCamera vcam;
+    [SerializeField]
+    CinemachineBrain brain;
+    Camera cam;
+    [SerializeField]
+    Image crosshair;
+    [SerializeField]
+    Transform _lookAt;
+
     BulletMechanic _bullet;
+
+    Vector3d dir;
 
     bool activatable = false;
     bool isActive = false;
     bool canShoot = true;
 
-    private void OnTriggerEnter(Collider other)
+    private void Start()
     {
-        if(other.CompareTag("Player")) activatable = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player")) activatable = false;
+        _playerM = _player.GetComponent<PlayerMovement>();
+        cam = Camera.main;
     }
 
     void Activate()
     {
+        _playerM.isFPS_state = true;
+        main_vcam.gameObject.SetActive(false);
+        vcam.gameObject.SetActive(true);
+        crosshair.gameObject.SetActive(true);
         isActive = true;
     }
     void Deactivate()
     {
+        _playerM.isFPS_state = false;
+        main_vcam.gameObject.SetActive(true);
+        vcam.gameObject.SetActive(false);
         isActive = false;
+        crosshair.gameObject.SetActive(false);
     }
-
+    Ray ray;
+    RaycastHit hit;
     private void Update()
     {
         if (!isActive)
         {
-            if (!activatable) return;
+            if ((transform.position - _player.position).magnitude > proximity) return;
             else
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     Activate();
                 }
+                return;
             }
         }
 
+        ray = cam.ScreenPointToRay(Input.mousePosition);
+        if (Physics.Raycast(ray, out hit))
+        {
+            _lookAt.position = hit.point;
+            dir = (_muzzlePos.position - _lookAt.position).normalized.ToVector3d();
+        }
+        
+        
         timer += Time.deltaTime;
         if(timer >= rate)
         {
@@ -90,14 +124,14 @@ public class GunMechanic : MonoBehaviour
     public void Shoot(Vector3d initial, Vector3d direction, float t)
     {
         _bullet = Spawner.Instance.Get();
-        _bullet.SetAndFire(initial, direction, _bulletLifetime, power, _attackType);
+        _bullet.SetAndFire(initial, dir, _bulletLifetime, power, _attackType);
         StartCoroutine(Muzzle());
     }
 
     IEnumerator Muzzle()
     {
         _muzzleFlash.SetActive(true);
-        yield return new WaitForSeconds(_bulletLifetime);
+        yield return new WaitForSeconds(_bulletLifetime/2f);
         _muzzleFlash.SetActive(false);
     }
 }

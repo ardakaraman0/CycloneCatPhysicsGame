@@ -68,73 +68,78 @@ public class PlayerMovement : MonoBehaviour
     }
 
     bool inair = false;
+    public bool isFPS_state = false;
     void Update()
     {
-        if (!_controller.isGrounded && _playerVelocity.y > 0)
+        if (!isFPS_state)
         {
-            inair = true;
-            //Up anim
+            if (!_controller.isGrounded && _playerVelocity.y > 0)
+            {
+                inair = true;
+                //Up anim
+            }
+
+            if (!_controller.isGrounded && _playerVelocity.y < 0)
+            {
+                inair = true;
+                //fall anim
+            }
+            if (_controller.isGrounded && inair)
+            {
+                inair = false;
+                //land anim
+            }
+
+
+            if (_controller.isGrounded && _playerVelocity.y < 0)
+            {
+                _playerVelocity.y = 0f;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Mouse0))
+            {
+                busy = true;
+                _animator.SetBool("attack", true);
+                StartCoroutine(AttackBusyTime(attakingTime));
+                _mechanics.Attack(attakingTime);
+                return;
+            }
+
+            _horizontal = Input.GetAxisRaw("Horizontal");
+            _vertical = Input.GetAxisRaw("Vertical");
+            _direction = new Vector3(_horizontal, 0, _vertical).normalized;
+
+
+            if (_direction.magnitude >= 0.1f)
+            {
+                _animator.SetBool("walk", true);
+                _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
+                _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref turnSmoothVelocity, turnSmoothTime);
+
+                transform.rotation = Quaternion.Euler(0f, _angle, 0f);
+
+                _moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
+                _controller.Move(_moveDirection.normalized * movementSpeed * Time.deltaTime);
+            }
+            else
+            {
+                _animator.SetBool("walk", false);
+            }
+
+
+            if (Input.GetKey(KeyCode.Space))
+            {
+                busy = true;
+                _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
+                _animator.SetBool("jump", true);
+                StartCoroutine(JumpBusyTime(jumpingTime));
+                return;
+            }
+
+            _playerVelocity.y += _gravityValue * Time.deltaTime;
+            _controller.Move(_playerVelocity * Time.deltaTime);
         }
 
-        if (!_controller.isGrounded && _playerVelocity.y < 0)
-        {
-            inair = true;
-            //fall anim
-        }
-        if (_controller.isGrounded && inair)
-        {
-            inair = false;
-            //land anim
-        }
-
-
-        if (_controller.isGrounded && _playerVelocity.y < 0)
-        {
-            _playerVelocity.y = 0f;
-        }
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            busy = true;
-            _animator.SetBool("attack", true);
-            StartCoroutine(AttackBusyTime(attakingTime));
-            _mechanics.Attack(attakingTime);
-            return;
-        }
-
-        _horizontal = Input.GetAxisRaw("Horizontal");
-        _vertical = Input.GetAxisRaw("Vertical");
-        _direction = new Vector3(_horizontal, 0, _vertical).normalized;
-
-
-        if (_direction.magnitude >= 0.1f)
-        {
-            _animator.SetBool("walk", true);
-            _targetAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
-            _angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetAngle, ref turnSmoothVelocity, turnSmoothTime);
-
-            transform.rotation = Quaternion.Euler(0f, _angle, 0f);
-
-            _moveDirection = Quaternion.Euler(0f, _targetAngle, 0f) * Vector3.forward;
-            _controller.Move(_moveDirection.normalized * movementSpeed * Time.deltaTime);
-        }
-        else
-        {
-            _animator.SetBool("walk", false);
-        }
-        
-
-        if (Input.GetKey(KeyCode.Space))
-        {
-            busy = true;
-            _playerVelocity.y = Mathf.Sqrt(_jumpHeight * -3.0f * _gravityValue);
-            _animator.SetBool("jump", true);
-            StartCoroutine(JumpBusyTime(jumpingTime));
-            return;
-        }
-
-        _playerVelocity.y += _gravityValue * Time.deltaTime;
-        _controller.Move(_playerVelocity * Time.deltaTime);
     }
 
 

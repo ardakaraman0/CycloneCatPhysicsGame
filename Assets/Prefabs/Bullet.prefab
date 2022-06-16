@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6218832796895712544}
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 105.887, y: 0.707, z: 2.9099998}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: d0a63dfe76abc4b9a8850a0ae29f5e40, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -101,6 +101,7 @@ MonoBehaviour:
   damping: 0.9
   useGravity: 1
   _bulletMechanic: {fileID: 2933017511168708029}
+  shoot: 0
 --- !u!114 &2933017511168708029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -114,3 +115,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidSphere: {fileID: 6218832796895712549}
+  _attackType: 0
